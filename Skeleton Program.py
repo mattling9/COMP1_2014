@@ -218,10 +218,16 @@ def PlayGame(Deck, RecentScores):
       GameOver = True
   if GameOver:
     DisplayEndOfGameMessage(NoOfCardsTurnedOver - 2)
-    UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2)
+    HighScoreChoice = input("Do you want to Add your score to the High Score Table? (y/n): ")
+    HighScoreChoice = HighScoreChoice.upper()
+    if HighScoreChoice == 'Y':
+      UpdateRecentScores(RecentScores, NoOfCardsTurnedOver - 2)
   else:
     DisplayEndOfGameMessage(51)
-    UpdateRecentScores(RecentScores, 51)
+    HighScoreChoice = input("Do you want to Add your score to the High Score Table? (y/n): ")
+    HighScoreChoice = HighScoreChoice.upper()
+    if HighScoreChoice == 'Y':
+      UpdateRecentScores(RecentScores, 51)
 
 if __name__ == '__main__':
   for Count in range(1, 53):
