@@ -18,3 +18,10 @@ WHILE ValidName = False DO
 	IF length(PlayerName) > 0:
 		ValidName <-- TRUE
 RETURN PlayerName
+
+##Task 3(b)
+
+1. UpdateRecentScores()
+
+
+
