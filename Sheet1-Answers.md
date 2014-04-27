@@ -12,3 +12,9 @@
 
 ValidName <-- False
 WHILE ValidName = False DO
+	OUTPUT 'Enter Name Here:'
+	INPUT PlayerName
+	OUTPUT ''
+	IF length(PlayerName) > 0:
+		ValidName <-- TRUE
+RETURN PlayerName
