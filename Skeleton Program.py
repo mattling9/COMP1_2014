@@ -6,6 +6,7 @@
 
 import random, datetime
 
+ACE_HIGH = True
 NO_OF_RECENT_SCORES = 3
 
 class TCard():
@@ -51,6 +52,8 @@ def GetRank(RankNo):
     Rank = 'Queen'
   elif RankNo == 13:
     Rank = 'King'
+  elif RankNo == 14:
+    Rank = 'Ace'
   return Rank
 
 def GetSuit(SuitNo):
@@ -67,14 +70,30 @@ def GetSuit(SuitNo):
 
 def DisplayMenu():
   print()
-  print('MAIN MENU')
+  print('-------------------------MAIN MENU-------------------------')
   print()
   print('1. Play game (with shuffle)')
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
-  print()
+  print('5. Options')
   print('Select an option from the menu (or enter q to quit): ', end='')
+
+def OptionsMenu():
+  print("-----------------------OPTIONS MENU-------------------------")
+  print()
+  print('1. Ace High / Ace Low')
+  print()
+  OptionsMenuChoice = input('Select an option from the menu (or enter q to quit): ')
+  if OptionsMenuChoice == '1':
+    ACE_HIGH_CHOICE = input("Would you like to set Ace (H)igh / Ace (L)ow? :")
+    if ACE_HIGH_CHOICE == 'H':
+      ACE_HIGH = True
+  return ACE_HIGH
+
+
+  
+  
 
 def GetMenuChoice():
   Choice = input()
@@ -95,6 +114,8 @@ def LoadDeck(Deck):
     Deck[Count].Suit = int(LineFromFile)
     LineFromFile = CurrentFile.readline()
     Deck[Count].Rank = int(LineFromFile)
+    if ACE_HIGH == True and Deck[Count].Rank == 1:
+      Deck[Count].Rank = 14
     Count = Count + 1
  
 def ShuffleDeck(Deck):
@@ -254,3 +275,6 @@ if __name__ == '__main__':
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
+    elif Choice == '5':
+      OptionsMenu()
+  
