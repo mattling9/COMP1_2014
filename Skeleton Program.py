@@ -8,6 +8,7 @@ import random, datetime
 
 ACE_HIGH = True
 NO_OF_RECENT_SCORES = 3
+RecentScoresCounter = 1
 
 class TCard():
   def __init__(self):
@@ -77,6 +78,9 @@ def DisplayMenu():
   print('3. Display recent scores')
   print('4. Reset recent scores')
   print('5. Options')
+  print('6. Save Recent Scores')
+  print('7. Load Recent Scores')
+  print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
 def OptionsMenu():
@@ -190,6 +194,7 @@ def ResetRecentScores(RecentScores):
     RecentScores[Count].Score = 0
 
 def DisplayRecentScores(RecentScores):
+  BubbleSortScores(RecentScores)
   print()
   print('Recent Scores: ')
   print()
@@ -202,6 +207,8 @@ def DisplayRecentScores(RecentScores):
   print()
 
 def UpdateRecentScores(RecentScores, Score):
+  global RecentScoresCounter
+  RecentScoresCounter = RecentScoresCounter + 1
   Date = datetime.datetime.now()
   PlayerName = GetPlayerName()
   FoundSpace = False
@@ -213,15 +220,44 @@ def UpdateRecentScores(RecentScores, Score):
       Count = Count + 1
   if not FoundSpace:
     for Count in range(1, NO_OF_RECENT_SCORES):
-      RecentScores[Count].Name = RecentScores[Count + 1].Name
-      RecentScores[Count].Score = RecentScores[Count + 1].Score
-      RecentScores[Count].Date = RecentScores[Count + 1].Date
+      RecentScores[Count].Name = RecentScores[Count +1].Name
+      RecentScores[Count].Score = RecentScores[Count +1].Score
+      RecentScores[Count].Date = RecentScores[Count +1].Date
     Count = NO_OF_RECENT_SCORES
   RecentScores[Count].Name = PlayerName
   RecentScores[Count].Score = Score
   RecentScores[Count].Date = Date.strftime("%d/%m/%Y")
 
+def SaveScores(RecentScores):
+  with open('save_scores.txt', mode = 'w', encoding= 'UTF-8')as my_file:
+    my_file.write(RecentScores)
+    
+def LoadScores():
+  with open('save_scores.txt', mode = 'r', encoding= 'UTF-8')as my_file:
+    RecentScores = my_file.read()
+  return RecentScores
+
+def BubbleSortScores(RecentScores):
+  Swapped = True
+  while Swapped:
+    Swapped = False
+    for Count in range(1, NO_OF_RECENT_SCORES):
+      if RecentScores[Count + 1].Score > RecentScores[Count].Score:
+        tempScore = RecentScores[Count + 1].Score
+        tempName = RecentScores[Count + 1].Name
+        tempDate = RecentScores[Count + 1].Date
+            
+        RecentScores[Count +1].Score = RecentScores[Count].Score
+        RecentScores[Count + 1].Name = RecentScores[Count].Name
+        RecentScores[Count + 1].Date = RecentScores[Count].Date
+        RecentScores[Count].Score = tempScore
+        RecentScores[Count].Name = tempName
+        RecentScores[Count].Date = tempDate
+        Swapped = True
+  return RecentScores
+
 def PlayGame(Deck, RecentScores):
+  RecentScoreCounter = 0
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
@@ -277,4 +313,7 @@ if __name__ == '__main__':
       ResetRecentScores(RecentScores)
     elif Choice == '5':
       OptionsMenu()
-  
+    elif Choice == '6':
+      SaveScores(RecentScores)
+    elif Choice == '7':
+      LoadScores()
