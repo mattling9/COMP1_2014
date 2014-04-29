@@ -4,7 +4,7 @@
 
 ###Questions
 
-1. Ace High should be set globaly so it doesn't have to be changed after each game
+1. Ace High should be set globally so it doesn't have to be changed after each game
 
 2. DisplayMenu()
 
@@ -33,3 +33,22 @@ FUNCTION SetAceHighOrLow()
 	IF AceHighChoice = 'H' THEN
 		ACEHIGH <-- True
 	RETURN ACEHIGH
+	
+## Task 7
+
+###Pseudo-Code
+
+FUNCTION BubbleSortScores(RecentScores)
+	Swapped <-- TRUE
+	listlength <-- LENGTH(RecentScores
+	WHILE Swapped DO
+		Swapped <-- False
+		FOR count in range (Listlength) DO
+			IF RecentScores[count].Score > RecentScores[count +1].Score DO
+				temp <-- Recent Scores[count]
+				RecentScores[count].Score <-- RecentScores[count +1].Score
+				RecentScores[count +1].Score <-- temp
+				Swapped <-- TRUE
+		RETURN RecentScores
+
+		
