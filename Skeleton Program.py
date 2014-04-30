@@ -8,7 +8,6 @@ import random, datetime
 
 ACE_HIGH = True
 NO_OF_RECENT_SCORES = 3
-RecentScoresCounter = 1
 
 class TCard():
   def __init__(self):
@@ -192,9 +191,10 @@ def ResetRecentScores(RecentScores):
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores[Count].Name = ''
     RecentScores[Count].Score = 0
+    RecentScores[Count].Date = ''
 
 def DisplayRecentScores(RecentScores):
-  BubbleSortScores(RecentScores)
+  ##BubbleSortScores(RecentScores)
   print()
   print('Recent Scores: ')
   print()
@@ -207,8 +207,6 @@ def DisplayRecentScores(RecentScores):
   print()
 
 def UpdateRecentScores(RecentScores, Score):
-  global RecentScoresCounter
-  RecentScoresCounter = RecentScoresCounter + 1
   Date = datetime.datetime.now()
   PlayerName = GetPlayerName()
   FoundSpace = False
@@ -229,13 +227,25 @@ def UpdateRecentScores(RecentScores, Score):
   RecentScores[Count].Date = Date.strftime("%d/%m/%Y")
 
 def SaveScores(RecentScores):
+  InfoList = []
+  for Count in range(1, (NO_OF_RECENT_SCORES - 1)):
+     InfoList.append(RecentScores[Count].Score)
+     InfoList.append(RecentScores[Count].Name)
+     InfoList.append(RecentScores[Count].Date)
+  print(InfoList)
   with open('save_scores.txt', mode = 'w', encoding= 'UTF-8')as my_file:
-    my_file.write(RecentScores)
+    for item in (InfoList):
+      my_file.write("{0}".format(item))
+      my_file.write("\n")
     
 def LoadScores():
+  InfoList = []
   with open('save_scores.txt', mode = 'r', encoding= 'UTF-8')as my_file:
-    RecentScores = my_file.read()
-  return RecentScores
+    my_file.read()
+    my_file.rstrip()
+
+
+
 
 def BubbleSortScores(RecentScores):
   Swapped = True
@@ -243,18 +253,10 @@ def BubbleSortScores(RecentScores):
     Swapped = False
     for Count in range(1, NO_OF_RECENT_SCORES):
       if RecentScores[Count + 1].Score > RecentScores[Count].Score:
-        tempScore = RecentScores[Count + 1].Score
-        tempName = RecentScores[Count + 1].Name
-        tempDate = RecentScores[Count + 1].Date
-            
-        RecentScores[Count +1].Score = RecentScores[Count].Score
-        RecentScores[Count + 1].Name = RecentScores[Count].Name
-        RecentScores[Count + 1].Date = RecentScores[Count].Date
-        RecentScores[Count].Score = tempScore
-        RecentScores[Count].Name = tempName
-        RecentScores[Count].Date = tempDate
+        temp = RecentScores[Count + 1]
+        RecentScores[Count +1] = RecentScores[Count]
+        RecentScores[Count] = temp
         Swapped = True
-  return RecentScores
 
 def PlayGame(Deck, RecentScores):
   RecentScoreCounter = 0
