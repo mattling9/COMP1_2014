@@ -17,7 +17,7 @@ class TCard():
 class TRecentScore():
   def __init__(self):
     self.Name = ''
-    self.Score = 0
+    self.Score = ''
     self.Date = ''
 
 Deck = [None]
@@ -227,22 +227,30 @@ def UpdateRecentScores(RecentScores, Score):
   RecentScores[Count].Date = Date.strftime("%d/%m/%Y")
 
 def SaveScores(RecentScores):
-  InfoList = []
-  for Count in range(1, (NO_OF_RECENT_SCORES - 1)):
-     InfoList.append(RecentScores[Count].Score)
-     InfoList.append(RecentScores[Count].Name)
-     InfoList.append(RecentScores[Count].Date)
-  print(InfoList)
   with open('save_scores.txt', mode = 'w', encoding= 'UTF-8')as my_file:
-    for item in (InfoList):
-      my_file.write("{0}".format(item))
-      my_file.write("\n")
-    
+    for Count in range(1, NO_OF_RECENT_SCORES +1):
+      my_file.write(str(RecentScores[Count].Score)+ "\n")
+      my_file.write(str(RecentScores[Count].Name)+ "\n")
+      my_file.write(str(RecentScores[Count].Date)+ "\n")
 def LoadScores():
-  InfoList = []
-  with open('save_scores.txt', mode = 'r', encoding= 'UTF-8')as my_file:
-    my_file.read()
-    my_file.rstrip()
+  try:
+    with open("save_scores.txt",mode="r")as my_file:
+      counter=1
+      count=1
+      for line in my_file:
+        if counter == 1:
+          RecentScores[count].Name = line.rstrip("\n")
+        elif counter == 2:
+          RecentScores[count].Score= line.rstrip("\n")
+        elif counter == 3:
+          RecentScores[count].Date = line.rstrip("\n")
+          count+=1
+          counter=0
+        counter+=1
+  except IOError:
+    print()
+    print("Sorry No File Was Found :(")
+    print()
 
 
 
