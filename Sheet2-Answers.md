@@ -51,4 +51,10 @@ FUNCTION BubbleSortScores(RecentScores)
 				Swapped <-- TRUE
 		RETURN RecentScores
 
+
+##Task 10(b)
+
+1. The Save File may be storing 5 high scores for example, and you may only currently want to store 3.
+
+
 		

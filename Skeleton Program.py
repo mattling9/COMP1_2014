@@ -7,7 +7,8 @@
 import random, datetime
 
 ACE_HIGH = True
-NO_OF_RECENT_SCORES = 3
+NO_OF_RECENT_SCORES = 2
+
 
 class TCard():
   def __init__(self):
@@ -91,8 +92,8 @@ def OptionsMenu():
   if OptionsMenuChoice == '1':
     ACE_HIGH_CHOICE = input("Would you like to set Ace (H)igh / Ace (L)ow? :")
     if ACE_HIGH_CHOICE == 'H':
+      global ACE_HIGH
       ACE_HIGH = True
-  return ACE_HIGH
 
 
   
@@ -232,25 +233,30 @@ def SaveScores(RecentScores):
       my_file.write(str(RecentScores[Count].Score)+ "\n")
       my_file.write(str(RecentScores[Count].Name)+ "\n")
       my_file.write(str(RecentScores[Count].Date)+ "\n")
+
+      
 def LoadScores():
   try:
     with open("save_scores.txt",mode="r")as my_file:
-      counter=1
-      count=1
+      counter =1
+      count =1
+      done = False
       for line in my_file:
-        if counter == 1:
-          RecentScores[count].Name = line.rstrip("\n")
-        elif counter == 2:
-          RecentScores[count].Score= line.rstrip("\n")
-        elif counter == 3:
-          RecentScores[count].Date = line.rstrip("\n")
-          count+=1
-          counter=0
-        counter+=1
+        if (count -1) != NO_OF_RECENT_SCORES:
+          if counter == 1:
+            RecentScores[count].Name = line.rstrip("\n")
+          elif counter == 2:
+            RecentScores[count].Score= line.rstrip("\n")
+          elif counter == 3:
+            RecentScores[count].Date = line.rstrip("\n")
+            count+=1
+            counter=0
+          counter+=1
   except IOError:
     print()
-    print("Sorry No File Was Found :(")
+    print("Sorry No File Was Found")
     print()
+
 
 
 
