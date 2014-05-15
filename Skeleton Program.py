@@ -6,8 +6,9 @@
 
 import random, datetime
 
+SameCardLower = True
 ACE_HIGH = True
-NO_OF_RECENT_SCORES = 2
+NO_OF_RECENT_SCORES = 3
 
 
 class TCard():
@@ -87,14 +88,32 @@ def OptionsMenu():
   print("-----------------------OPTIONS MENU-------------------------")
   print()
   print('1. Ace High / Ace Low')
+  print('2. Card of same score ends game')
   print()
+  
   OptionsMenuChoice = input('Select an option from the menu (or enter q to quit): ')
   if OptionsMenuChoice == '1':
     ACE_HIGH_CHOICE = input("Would you like to set Ace (H)igh / Ace (L)ow? :")
     if ACE_HIGH_CHOICE == 'H':
       global ACE_HIGH
       ACE_HIGH = True
+  elif OptionsMenuChoice == '2':
+    SetSameScore()
 
+def SetSameScore():
+  global SameCardLower
+  Done = False
+  while not Done:
+    Choice = input("Do you want the next card to have the same or lower value as the current card?: ")
+    Choice = Choice.upper()
+    Choice = Choice[0]
+    if Choice == 'S':
+      Done = True
+      SameCardLower = False
+    elif Choice == 'L':
+      Done = True
+      SameCardLower = True
+      
 
   
   
@@ -153,6 +172,9 @@ def IsNextCardHigher(LastCard, NextCard):
   Higher = False
   if NextCard.Rank > LastCard.Rank:
     Higher = True
+  if SameCardLower == True:
+    if NextCard.Rank == LastCard.Rank:
+      Higher = True
   return Higher
 
 def GetPlayerName():
